@@ -1,17 +1,15 @@
-function checkPeopleFollowed(type, ids)
-{
+function checkPeopleFollowed(type, ids) {
     if (typeof(ids) == "string") ids = [ids];
     //If ids is a single string ID, convert it to an array
 
     return this.makeRequest(`me/following/contains${this.formQueryString({
         type,
-        ids : ids.join(",")
+        ids : ids.join(","),
     })}`);
     //Check current user is following a artists or users
 }
 
-async function checkPlaylistFollowed(playlistId, userIds = [])
-{
+async function checkPlaylistFollowed(playlistId, userIds = []) {
     if (typeof(userIds) == "string") userIds = [userIds];
     //If userIds is a single string ID, convert it to an array
 
@@ -22,26 +20,23 @@ async function checkPlaylistFollowed(playlistId, userIds = [])
     //Check if a playlist is followed by a number of users
 }
 
-function followPeople(type, ids)
-{
+function followPeople(type, ids) {
     if (typeof(ids) == "string") ids = [ids];
     //If ids is a string of a single ID, convert it to an array
 
     return this.makeRequest(`me/following${this.formQueryString({
         type,
-        ids : ids.slice(0, 50).join(",")
+        ids : ids.slice(0, 50).join(","),
     })}`, "PUT");
     //Follow artists or users
 }
 
-function followPlaylist(id, public)
-{
+function followPlaylist(id, public) {
     return this.makeRequest(`playlists/${id}/followers`, "PUT", public ? "" : JSON.stringify({public}));
     //Follow a playlist
 }
 
-function getFollowedArtists(limit, after)
-{
+function getFollowedArtists(limit, after /* = null */) {
     return new Promise(async (resolve, reject) => {
         let ret = [];
         let body;
@@ -50,7 +45,7 @@ function getFollowedArtists(limit, after)
             body = await this.makeRequest(`me/following${this.formQueryString({
                 type : "artist",
                 limit : Math.min(limit, 50) || 50,
-                after : body ? body.artists.items[body.artists.items.length - 1].id : null
+                after : body ? body.artists.items[body.artists.items.length - 1].id : after,
             })}`).catch(reject);
             //Fetch each page of followed artists
 
@@ -68,13 +63,12 @@ function unfollowPeople(type, ids) {
 
     return this.makeRequest(`me/following${this.formQueryString({
         type,
-        ids : ids.slice(0, 50).join(",")
+        ids : ids.slice(0, 50).join(","),
     })}`, "DELETE");
     //Unfollow a number of artists or users
 }
 
-function unfollowPlaylist(id)
-{
+function unfollowPlaylist(id) {
     return this.makeRequest(`playlists/${id}/followers`, "DELETE")
     //Unfollow a playlist
 }
@@ -86,5 +80,5 @@ module.exports = {
     followPlaylist,
     getFollowedArtists,
     unfollowPeople,
-    unfollowPlaylist
+    unfollowPlaylist,
 };

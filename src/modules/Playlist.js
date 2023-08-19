@@ -1,29 +1,25 @@
-function addSongs(playlistId, songIds = [], position)
-{
+function addSongs(playlistId, songIds = [], position) {
     if (typeof(songIds) == "string") songIds = [songIds];
     //If song ID is a string of a single ID, convert it to an array
     
     return this.makeRequest(`playlists/${playlistId}/tracks`, "POST", JSON.stringify({
         uris : songIds.map(id => `spotify:track:${id}`),
-        position
+        position,
     }));
     //Add the song(s) to the playlist
 }
 
-function updateInfo(id, info = {})
-{
+function updateInfo(id, info = {}) {
     return this.makeRequest(`playlists/${id}`, "PUT", JSON.stringify(info));
     //Update a playlist's information
 }
 
-async function createPlaylist(info = {})
-{
+async function createPlaylist(info = {}) {
     return this.makeRequest(`users/${(await this.getUserProfile()).id}/playlists`, "POST", JSON.stringify(info));
     //Create a playlist
 }
 
-function getMyPlaylists()
-{
+function getMyPlaylists() {
     return new Promise(async (resolve, reject) => {
         let ret = [];
         let body;
@@ -39,14 +35,12 @@ function getMyPlaylists()
     });
 }
 
-function getCoverImage(id)
-{
+function getCoverImage(id) {
     return this.makeRequest(`playlists/${id}/images`);
     //Get the cover image of a playlist
 }
 
-function getPlaylist(id, fields)
-{
+function getPlaylist(id, fields) {
     if (typeof(fields) == "string") fields = [fields];
     //If field is a single string field, convert it to an array
 
@@ -54,8 +48,7 @@ function getPlaylist(id, fields)
     //Return data about playlist
 }
 
-function getSongs(id)
-{
+function getSongs(id) {
     return new Promise(async (resolve, reject) => {
         let ret = [];
         let body;
@@ -71,14 +64,12 @@ function getSongs(id)
     });
 }
 
-function removeSongs(playlistId, songIds = [], positions = {})
-{
+function removeSongs(playlistId, songIds = [], positions = {}) {
     if (typeof(songIds) == "string") songIds = [songIds];;
     //If songIds is a string, convert it to an array
 
     let tracks = [];
-    for (let x = 0; x < songIds.length; x ++)
-    {
+    for (let x = 0; x < songIds.length; x ++) {
         tracks.push({uri : `spotify:track:${songIds[x]}`});
         if (positions[songIds[x]]) tracks[x].positions = positions[songIds[x]];
         //Add track ID and position, if any, to list of tracks to be removed
@@ -88,18 +79,16 @@ function removeSongs(playlistId, songIds = [], positions = {})
     //Remove given songs from playlist
 }
 
-function reorderSongs(id, start, end, newPosition)
-{
+function reorderSongs(id, start, end, newPosition) {
     return this.makeRequest(`playlists/${id}/tracks/`, "PUT", JSON.stringify({
         range_start : start,
         range_length : end - start + 1,
-        insert_before : newPosition
+        insert_before : newPosition,
     }));
     //Move a range of songs in a playlist to a different index
 }
 
-function replaceSongs(id, songs = "")
-{
+function replaceSongs(id, songs = "") {
     if (typeof(songs) == "string") songs = [songs];
     //If songs is a string, convert it to an array
 
@@ -107,14 +96,12 @@ function replaceSongs(id, songs = "")
     //Replace all songs in the playlist with the given songs
 }
 
-function setCoverImage(id, image)
-{
+function setCoverImage(id, image) {
     return this.makeRequest(`playlists/${id}/images`, "PUT", Buffer.from(image).toString("base64"));
     //Set a playlist's cover image
 }
 
-function deletePlaylist(id)
-{
+function deletePlaylist(id) {
     return this.makeRequest(`playlists/${id}/followers`, "DELETE");
     //Delete a playlist
 }
@@ -131,5 +118,5 @@ module.exports = {
     reorderSongs,
     replaceSongs,
     setCoverImage,
-    deletePlaylist
+    deletePlaylist,
 };

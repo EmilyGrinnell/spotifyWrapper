@@ -1,5 +1,4 @@
-function getArtists(ids)
-{
+function getArtists(ids) {
     if (typeof(ids) == "string") ids = [ids];
     //If ids is a string of a single ID, convert it to an array
 
@@ -7,8 +6,7 @@ function getArtists(ids)
     //Get data about a number of artists
 }
 
-function getAlbums(id, include_groups = ["album", "single", "appears_on", "compilation"])
-{
+function getAlbums(id, include_groups = ["album", "single", "appears_on", "compilation"]) {
     return new Promise(async (resolve, reject) => {
         let ret = [];
         let body;
@@ -17,7 +15,7 @@ function getAlbums(id, include_groups = ["album", "single", "appears_on", "compi
             body = await this.makeRequest(`artists/${id}/albums${this.formQueryString({
                 include_groups : include_groups.join(","),
                 limit : 50,
-                offset : ret.length
+                offset : ret.length,
             })}`).catch(reject);
             //Get each page of albums
 
@@ -29,14 +27,12 @@ function getAlbums(id, include_groups = ["album", "single", "appears_on", "compi
     });
 }
 
-function getTopSongs(id, country = "from_token")
-{
+function getTopSongs(id, country = "from_token") {
     return this.makeRequest(`artists/${id}/top-tracks?country=${country}`);
     //Get an artist's top songs
 }
 
-function getRelatedArtists(id)
-{
+function getRelatedArtists(id) {
     return this.makeRequest(`artists/${id}/related-artists`);
     //Get artists related to the given artists
 }
@@ -45,5 +41,5 @@ module.exports = {
     getArtists,
     getAlbums,
     getTopSongs,
-    getRelatedArtists
+    getRelatedArtists,
 };

@@ -1,21 +1,18 @@
-function getDevices()
-{
+function getDevices() {
     return this.makeRequest("me/player/devices");
     //Get available devices
 }
 
-function getPlaybackState()
-{
+function getPlaybackState() {
     return this.makeRequest("me/player/");
     //Get current playback state
 }
 
-function getRecentlyPlayed(limit, after, before)
-{
+function getRecentlyPlayed(limit, after, before) {
     return new Promise(async (resolve, reject) => {
         let ret = [];
         let opts = {
-            limit : Math.min(limit, 50) || 50
+            limit : Math.min(limit, 50) || 50,
         };
         let body;
 
@@ -34,75 +31,65 @@ function getRecentlyPlayed(limit, after, before)
     });
 }
 
-function getCurrentlyPlaying()
-{
+function getCurrentlyPlaying() {
     return this.makeRequest("me/player/currently-playing");
     //Get currently playing song
 }
 
-function pause(device_id)
-{
+function pause(device_id) {
     return this.makeRequest(`me/player/pause${this.formQueryString({device_id})}`, "PUT")
     //Pause playback
 }
 
-function seek(position_ms, device_id)
-{
+function seek(position_ms, device_id) {
     return this.makeRequest(`me/player/seek${this.formQueryString({
         position_ms,
-        device_id
+        device_id,
     })}`, "PUT");
     //Seek to specified position in currently playing track
 }
 
-function setRepeat(state, device_id)
-{
+function setRepeat(state, device_id) {
     return this.makeRequest(`me/player/repeat${this.formQueryString({
         state,
-        device_id
+        device_id,
     })}`, "PUT");
     //Set repeat state
 }
 
-function setVolume(volume_percent, device_id)
-{
+function setVolume(volume_percent, device_id) {
     return this.makeRequest(`me/player/volume${this.formQueryString({
         volume_percent,
-        device_id
+        device_id,
     })}`, "PUT");
     //Set playback volume
 }
 
-function skip(device_id)
-{
+function skip(device_id) {
     return this.makeRequest(`me/player/next${this.formQueryString({device_id})}`, "POST");
     //Skip to the next song
 }
 
-function previous(device_id)
-{
+function previous(device_id) {
     return this.makeRequest(`me/player/previous${this.formQueryString({device_id})}`, "POST");
     //Skip to the previous song
 }
 
-function play(device_id, context_uri, songIds, offset, position_ms)
-{
+function play(device_id, context_uri, songIds, offset, position_ms) {
     //context_uri = context_uri || "";
     let opts = {
         context_uri,
-        position_ms
+        position_ms,
     };
 
     if (typeof(songIds) == "string") songIds = [songIds];
-    if (songIds && songIds.length)
-    {
+    if (songIds && songIds.length) {
         delete opts.context_uri;
         opts.uris = songIds.map(song => `spotify:track:${song}`);
         //Ensure only context_uri or uris is specified
     }
 
-    if (opts.uris || opts.context_uri.startsWith("spotify:album:") || opts.context_uri.startsWith("spotify:user:")) 
-    {
+    if (opts.uris || opts.context_uri.startsWith("spotify:album:") || opts.context_uri.startsWith("spotify:user:"))  {
         if (typeof(offset) == "number") opts.offset = {position : offset};
         else opts.offset = {uri : offset};
         //Set offset
@@ -114,26 +101,23 @@ function play(device_id, context_uri, songIds, offset, position_ms)
     //Play a song or number of songs
 }
 
-function resume(device_id)
-{
+function resume(device_id) {
     return this.makeRequest(`me/player/play${this.formQueryString({device_id})}`, "PUT");
     //Resume playback
 }
 
-function shuffle(state, device_id)
-{
+function shuffle(state, device_id) {
     return this.makeRequest(`me/player/shuffle${this.formQueryString({
         state,
-        device_id
+        device_id,
     })}`, "PUT");
     //Set shuffle state
 }
 
-function transferPlayback(device, play)
-{
+function transferPlayback(device, play) {
     return this.makeRequest("me/player/", "PUT", JSON.stringify({
         device_ids : [device],
-        play
+        play,
     }));
     //Transfer playback to another device
 }
@@ -152,5 +136,5 @@ module.exports = {
     play,
     resume,
     shuffle,
-    transferPlayback
+    transferPlayback,
 };

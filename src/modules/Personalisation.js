@@ -7,7 +7,7 @@ module.exports = function(type, limit, offset = 0, time_range) {
             body = await this.makeRequest(`me/top/${type}${this.formQueryString({
                 limit : Math.min(limit, 50) || 50,
                 offset : offset + ret.length,
-                time_range
+                time_range,
             })}`).catch(reject);
 
             ret.push(...body.items.slice(0, limit - ret.length));

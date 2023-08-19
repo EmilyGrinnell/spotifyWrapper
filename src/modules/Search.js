@@ -10,12 +10,11 @@ module.exports = function(q, types, market, limit, offset, include_external) {
                 market,
                 limit : Math.min(limit, 50) || 50,
                 offset : (offset || 0) + fetched,
-                include_external
+                include_external,
             })}`).catch(reject);
             //Fetch each page of results
 
-            for (let x = 0; x < Object.keys(body).length; x ++)
-            {
+            for (let x = 0; x < Object.keys(body).length; x ++) {
                 let key = Object.keys(body)[x];
                 results[key] = results[key] || [];
                 results[key].push(...body[key].items.slice(0, limit - fetched));

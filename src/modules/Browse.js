@@ -1,17 +1,14 @@
-function getCategory(id)
-{
+function getCategory(id) {
     return this.makeRequest(`browse/categories/${id}`);
     //Get info about a category
 }
 
-function getCategoryPlaylists(id)
-{
+function getCategoryPlaylists(id) {
     return this.makeRequest(`browse/categories/${id}/playlists`);
     //Get a category's playlists
 }
 
-function getCategories()
-{
+function getCategories() {
     return new Promise(async (resolve, reject) => {
         let ret = [];
         let body;
@@ -19,7 +16,7 @@ function getCategories()
         do {
             body = await this.makeRequest(`browse/categories${this.formQueryString({
                 limit : 50,
-                offset : ret.length
+                offset : ret.length,
             })}`).catch(reject);
             //Fetch each page of categories
 
@@ -31,8 +28,7 @@ function getCategories()
     });
 }
 
-function getFeaturedPlaylists(timestamp)
-{
+function getFeaturedPlaylists(timestamp) {
     return new Promise(async (resolve, reject) => {
         let ret = [];
         let body;
@@ -41,7 +37,7 @@ function getFeaturedPlaylists(timestamp)
             body = await this.makeRequest(`browse/featured-playlists${this.formQueryString({
                 limit : 50,
                 offset : ret.length,
-                timestamp
+                timestamp,
             })}`).catch(reject);
             //Get each page of featured playlists
 
@@ -53,8 +49,7 @@ function getFeaturedPlaylists(timestamp)
     });
 }
 
-function getNewReleases(limit)
-{
+function getNewReleases(limit) {
     return new Promise(async (resolve, reject) => {
         let ret = [];
         let body;
@@ -62,7 +57,7 @@ function getNewReleases(limit)
         do {
             body = await this.makeRequest(`browse/new-releases${this.formQueryString({
                 limit : Math.min(limit, 50) || 50,
-                offset : ret.length
+                offset : ret.length,
             })}`).catch(reject);
             //Get each page of new releases
 
@@ -74,8 +69,7 @@ function getNewReleases(limit)
     });
 }
 
-function getRecommendations(limit, artists = [], genres = [], tracks = [])
-{
+function getRecommendations(limit, artists = [], genres = [], tracks = []) {
     let length = 0;
 
     if (typeof(artists) == "string") artists = [artists];
@@ -83,8 +77,7 @@ function getRecommendations(limit, artists = [], genres = [], tracks = [])
     if (typeof(tracks) == "string") tracks = [tracks];
     //For each type, if the type is a string of a single ID, convert it to an array
 
-    for (let type of [artists, genres, tracks])
-    {
+    for (let type of [artists, genres, tracks]) {
         type = type.slice(0, 5 - length);
         length += type.length;
         //Only allow up to 5 seeds
@@ -94,7 +87,7 @@ function getRecommendations(limit, artists = [], genres = [], tracks = [])
         limit : Math.min(limit, 100) || 20,
         seed_artists : artists.join(","),
         seed_genres : genres.join(","),
-        seed_tracks : tracks.join(",")
+        seed_tracks : tracks.join(","),
     })}`);
     //Get recommendations
 }
@@ -105,5 +98,5 @@ module.exports = {
     getCategories,
     getFeaturedPlaylists,
     getNewReleases,
-    getRecommendations
+    getRecommendations,
 };

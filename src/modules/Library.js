@@ -1,5 +1,4 @@
-function checkAlbumsAreSaved(ids = [])
-{
+function checkAlbumsAreSaved(ids = []) {
     if (typeof(ids) == "string") ids = [ids];
     //If ids is a string of a single album ID, change it to an array
 
@@ -7,8 +6,7 @@ function checkAlbumsAreSaved(ids = [])
     //Check if a list of albums have been saved
 }
 
-function checkSongsAreSaved(ids = [])
-{
+function checkSongsAreSaved(ids = []) {
     if (typeof(ids) == "string") ids = [ids];
     //If ids is a string of a single song ID, change it to an array
 
@@ -16,8 +14,7 @@ function checkSongsAreSaved(ids = [])
     //Check if a list of songs have been saved
 }
 
-function getSavedAlbums()
-{
+function getSavedAlbums() {
     return new Promise(async (resolve, reject) => {
         let ret = [];
         let body;
@@ -25,7 +22,7 @@ function getSavedAlbums()
         do {
             body = await this.makeRequest(`me/albums${this.formQueryString({
                 limit : 50,
-                offset : ret.length
+                offset : ret.length,
             })}`).catch(reject);
 
             ret.push(...body.items);
@@ -37,8 +34,7 @@ function getSavedAlbums()
     });
 }
 
-function getSavedSongs()
-{
+function getSavedSongs() {
     return new Promise(async (resolve, reject) => {
         let ret = [];
         let body;
@@ -46,7 +42,7 @@ function getSavedSongs()
         do {
             body = await this.makeRequest(`me/tracks/${this.formQueryString({
                 limit : 50,
-                offset : ret.length
+                offset : ret.length,
             })}`).catch(reject);
 
             ret.push(...body.items);
@@ -58,8 +54,7 @@ function getSavedSongs()
     });
 }
 
-function unsaveAlbums(ids = [])
-{
+function unsaveAlbums(ids = []) {
     if (typeof(ids) == "string") ids = [ids];
     //If ids is a string of a single ID, convert it to an array
 
@@ -67,8 +62,7 @@ function unsaveAlbums(ids = [])
     //Unsave a number of albums
 }
 
-function unsaveSongs(ids = [])
-{
+function unsaveSongs(ids = []) {
     if (typeof(ids) == "string") ids = [ids];
     //If ids is a string of a single ID, convert it to an array
 
@@ -76,8 +70,7 @@ function unsaveSongs(ids = [])
     //Unsave a number of songs
 }
 
-function saveAlbums(ids = [])
-{
+function saveAlbums(ids = []) {
     if (typeof(ids) == "string") ids = [ids];
     //If ids is a string of a single ID, convert it to an array
 
@@ -85,8 +78,7 @@ function saveAlbums(ids = [])
     //Save a number of albums
 }
 
-function saveSongs(ids = [])
-{
+function saveSongs(ids = []) {
     if (typeof(ids) == "string") ids = [ids];
     //If ids is a string of a single ID, convert it to an array
 
@@ -102,5 +94,5 @@ module.exports = {
     unsaveAlbums,
     unsaveSongs,
     saveAlbums,
-    saveSongs
+    saveSongs,
 };

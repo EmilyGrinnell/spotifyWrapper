@@ -1,11 +1,9 @@
-function getAudioAnalysis(id)
-{
+function getAudioAnalysis(id) {
     return this.makeRequest(`audio-analysis/${id}`);
     //Get audio analysis for a song
 }
 
-function getAudioFeatures(ids)
-{
+function getAudioFeatures(ids) {
     if (typeof(ids) == "string") ids = [ids];
     //If ids is a string of a single id, convert it to an array
 
@@ -13,8 +11,7 @@ function getAudioFeatures(ids)
     //Get audio features for a song
 }
 
-function getSongs(ids)
-{
+function getSongs(ids) {
     if (typeof(ids) == "string") ids = [ids];
     //If ids is a string of a single id, convert it to an array
 
@@ -23,7 +20,7 @@ function getSongs(ids)
 }
 
 module.exports = {
-    getAudioAnalysis, //+
-    getAudioFeatures, //+
-    getSongs //+
+    getAudioAnalysis,
+    getAudioFeatures,
+    getSongs,
 };

@@ -1,5 +1,6 @@
 const request = require("request");
 const eventEmitter = require("events");
+
 const Album = require("./modules/Album.js");
 const Artist = require("./modules/Artist.js");
 const Browse = require("./modules/Browse.js");
@@ -12,10 +13,8 @@ const Search = require("./modules/Search.js");
 const Track = require("./modules/Track.js");
 const User = require("./modules/UserProfile.js");
 
-class API extends eventEmitter
-{
-    constructor(accessToken, refreshToken, clientId, clientSecret)
-    {
+class API extends eventEmitter {
+    constructor(accessToken, refreshToken, clientId, clientSecret) {
         super();
 
         this.accessToken = accessToken;
@@ -105,8 +104,7 @@ class API extends eventEmitter
         //User profile function
     }
 
-    makeRequest(path, method = "GET", form = {}, refresh = true)
-    {
+    makeRequest(path, method = "GET", form = {}, refresh = true) {
         return new Promise((resolve, reject) => {
             request({
                 url : `https://api.spotify.com/v1/${path}`,
@@ -114,11 +112,10 @@ class API extends eventEmitter
                 form,
                 json : true,
                 headers : {
-                    Authorization : `Bearer ${this.accessToken}`
-                }
+                    Authorization : `Bearer ${this.accessToken}`,
+                },
             }, async (err, res, body) => {
-                if (body && body.error && body.error.message == "The access token expired" && refresh)
-                {
+                if (body && body.error && body.error.message == "The access token expired" && refresh) {
                     await this.refreshAccessToken();
                     resolve(await this.makeRequest(path, method, form, false));
                     //Refresh the access token and make the request again without trying to refresh the token again
@@ -129,8 +126,7 @@ class API extends eventEmitter
         });
     }
 
-    refreshAccessToken()
-    {
+    refreshAccessToken() {
         return new Promise((resolve, reject) => {
             request({
                 url : "https://accounts.spotify.com/api/token",
@@ -138,14 +134,13 @@ class API extends eventEmitter
                 json : true,
                 form : {
                     grant_type : "refresh_token",
-                    refresh_token : this.refreshToken
+                    refresh_token : this.refreshToken,
                 },
                 headers : {
-                    Authorization : `Basic ${Buffer.from(`${this.clientId}:${this.clientSecret}`).toString("base64")}`
-                }
+                    Authorization : `Basic ${Buffer.from(`${this.clientId}:${this.clientSecret}`).toString("base64")}`,
+                },
             }, (err, res, body) => {
-                if (body && body.error)
-                {
+                if (body && body.error) {
                     this.emit("refresh_failed", body.error_description);
                     return reject(body.error_description);
                 }
@@ -158,14 +153,13 @@ class API extends eventEmitter
         });
     }
 
-    formQueryString(params)
-    {
+    formQueryString(params) {
         let str = "";
 
-        for (let x = 0; x < Object.keys(params).length; x ++)
-        {
+        for (let x = 0; x < Object.keys(params).length; x ++) {
             let param = Object.keys(params)[x];
-            if (![null, undefined].includes(params[param])) str += `${x ? "&" : "?"}${param}=${params[param]}`
+
+            if (![null, undefined].includes(params[param])) str += `${x ? "&" : "?"}${param}=${params[param]}`;
             //Add parameter to string, ignoring undefined parameters
         }
 

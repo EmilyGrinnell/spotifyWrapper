@@ -1,5 +1,4 @@
-function getAlbums(ids)
-{
+function getAlbums(ids) {
     if (typeof(ids) == "string") ids = [ids];
     //If ids is a string of a single ID, convert it to an array
 
@@ -7,8 +6,7 @@ function getAlbums(ids)
     //Get a number of albums
 }
 
-function getSongs(id)
-{
+function getSongs(id) {
     return new Promise(async (resolve, reject) => {
         let ret = [];
         let body;
@@ -16,7 +14,7 @@ function getSongs(id)
         do {
             body = await this.makeRequest(`albums/${id}/tracks${this.formQueryString({
                 limit : 50,
-                offset : ret.length
+                offset : ret.length,
             })}`).catch(reject);
             //Get each page of songs
 
@@ -30,5 +28,5 @@ function getSongs(id)
 
 module.exports = {
     getAlbums,
-    getSongs
+    getSongs,
 };
