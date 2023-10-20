@@ -65,7 +65,7 @@ function getSongs(id) {
 }
 
 function removeSongs(playlistId, songIds = [], positions = {}) {
-    if (typeof(songIds) == "string") songIds = [songIds];;
+    if (typeof(songIds) == "string") songIds = [songIds];
     //If songIds is a string, convert it to an array
 
     let tracks = [];
