@@ -89,7 +89,6 @@ class API extends eventEmitter {
         this.reorderPlaylist = Playlist.reorderSongs;
         this.replacePlaylistSongs = Playlist.replaceSongs;
         this.setPlaylistCoverImage = Playlist.setCoverImage;
-        this.deletePlaylist = Playlist.deletePlaylist;
         //Playlist functions
 
         this.search = Search;

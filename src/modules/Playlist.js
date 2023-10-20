@@ -101,11 +101,6 @@ function setCoverImage(id, image) {
     //Set a playlist's cover image
 }
 
-function deletePlaylist(id) {
-    return this.makeRequest(`playlists/${id}/followers`, "DELETE");
-    //Delete a playlist
-}
-
 module.exports = {
     addSongs,
     updateInfo,
@@ -118,5 +113,4 @@ module.exports = {
     reorderSongs,
     replaceSongs,
     setCoverImage,
-    deletePlaylist,
 };
