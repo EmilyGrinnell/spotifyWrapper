@@ -1,3 +1,6 @@
 node_modules/
+coverage/
+tests/test-config.json
+jsconfig.json
 yarn.lock
-test.js
+tests/

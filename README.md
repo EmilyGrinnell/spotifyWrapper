@@ -92,10 +92,10 @@ Follow a number of artists or users
 - type : `artist` or `user`
 - ids : the ID(s) of the artist(s) or user(s) to follow
 
-### followPlaylist(id : String, public : Boolean) -> Promise()
+### followPlaylist(id : String, isPublic : Boolean) -> Promise()
 Follow a playlist
 - id : the ID of the playlist to follow
-- public : if `true`, the playlist will be included in the user's public playlists
+- isPublic : if `true`, the playlist will be included in the user's public playlists
 
 ### getFollowedArtists(limit : Number, after? : String) -> Promise(Array)
 Get the current user's followed artists

@@ -31,8 +31,8 @@ function followPeople(type, ids) {
     //Follow artists or users
 }
 
-function followPlaylist(id, public) {
-    return this.makeRequest(`playlists/${id}/followers`, "PUT", public ? "" : JSON.stringify({public}));
+function followPlaylist(id, isPublic) {
+    return this.makeRequest(`playlists/${id}/followers`, "PUT", isPublic ? "" : JSON.stringify({public : isPublic}));
     //Follow a playlist
 }
 

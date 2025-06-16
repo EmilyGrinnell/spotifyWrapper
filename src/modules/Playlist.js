@@ -1,12 +1,24 @@
 function addSongs(playlistId, songIds = [], position) {
-    if (typeof(songIds) == "string") songIds = [songIds];
-    //If song ID is a string of a single ID, convert it to an array
-    
-    return this.makeRequest(`playlists/${playlistId}/tracks`, "POST", JSON.stringify({
-        uris : songIds.map(id => `spotify:track:${id}`),
-        position,
-    }));
-    //Add the song(s) to the playlist
+    return new Promise(async (resolve, reject) => {
+        if (typeof(songIds) == "string") songIds = [songIds];
+        //If song ID is a string of a single ID, convert it to an array
+
+        let splitIds = [];
+        while (songIds.length) splitIds.push(songIds.splice(0, 50));
+        //API Supports up to 100 items at a time but sometimes returns an error when doing so
+
+        do {
+            await this.makeRequest(`playlists/${playlistId}/tracks`, "POST", JSON.stringify({
+                uris : splitIds[0].map(id => `spotify:track:${id}`),
+                position,
+            })).catch(reject);
+            //Add the song(s) to the playlist
+
+            splitIds.splice(0, 1);
+        } while (splitIds.length)
+
+        resolve();
+    });
 }
 
 function updateInfo(id, info = {}) {
